@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TheDefiWolf | Awin Edward</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --red: #ff2a2a;
+      --red-dim: #c0392b;
+      --orange: #ff6600;
+      --dark: #0a0000;
+      --darker: #050000;
+      --card: rgba(20,0,0,0.85);
+      --border: rgba(255,42,42,0.3);
+      --glow: 0 0 18px rgba(255,42,42,0.5);
+      --text: #f0e0d0;
+      --muted: #a08070;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--darker);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* Noise overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* Grid lines background */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,42,42,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,42,42,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── BANNER ─────────────────────────────── */
+    .banner {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+    }
+
+    .banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: brightness(0.7) saturate(1.3);
+    }
+
+    .banner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, var(--darker) 100%);
+    }
+
+    /* Scanlines on banner */
+    .banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.12) 0px,
+        rgba(0,0,0,0.12) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ─── HERO ───────────────────────────────── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-top: -80px;
+      padding: 0 20px 60px;
+    }
+
+    .avatar-ring {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      padding: 3px;
+      background: conic-gradient(var(--red), var(--orange), var(--red), #600, var(--red));
+      animation: spin-ring 6s linear infinite;
+      box-shadow: var(--glow), 0 0 40px rgba(255,42,42,0.3);
+      position: relative;
+      z-index: 2;
+    }
+
+    @keyframes spin-ring {
+      to { transform: rotate(360deg); }
+    }
+
+    .avatar-ring img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      border: 3px solid var(--darker);
+    }
+
+    .hero-name {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.4rem, 5vw, 2.4rem);
+      font-weight: 900;
+      color: #fff;
+      margin-top: 18px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px var(--red), 0 0 40px rgba(255,42,42,0.4);
+    }
+
+    .hero-handle {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.95rem;
+      color: var(--red);
+      letter-spacing: 3px;
+      margin-top: 4px;
+      opacity: 0.9;
+    }
+
+    .hero-tag {
+      margin-top: 14px;
+      font-size: 1.05rem;
+      color: var(--muted);
+      font-weight: 300;
+      letter-spacing: 1px;
+      max-width: 480px;
+    }
+
+    /* ─── NAV ────────────────────────────────── */
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 0 20px 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    nav a {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 8px 18px;
+      border: 1px solid var(--border);
+      background: rgba(255,42,42,0.04);
+      transition: all 0.25s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+
+    nav a:hover {
+      color: #fff;
+      border-color: var(--red);
+      background: rgba(255,42,42,0.12);
+      box-shadow: var(--glow);
+      text-shadow: 0 0 8px var(--red);
+    }
+
+    /* ─── SECTIONS ───────────────────────────── */
+    section {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto 70px;
+      padding: 0 24px;
+    }
+
+    .section-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--red);
+      letter-spacing: 4px;
+      margin-bottom: 6px;
+      opacity: 0.8;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.3rem, 4vw, 1.9rem);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--red), transparent);
+    }
+
+    /* ─── ABOUT ──────────────────────────────── */
+    .about-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--red);
+      padding: 28px 32px;
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.8;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-card::before {
+      content: '//';
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 2rem;
+      color: rgba(255,42,42,0.1);
+    }
+
+    .about-card p {
+      font-size: 1.08rem;
+      color: var(--text);
+    }
+
+    .principle {
+      margin-top: 20px;
+      padding: 14px 18px;
+      background: rgba(255,42,42,0.07);
+      border-left: 2px solid var(--orange);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--orange);
+      letter-spacing: 1px;
+    }
+
+    /* ─── SERVICES ───────────────────────────── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .service-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 0; height: 0;
+      border-style: solid;
+      border-width: 0 16px 16px 0;
+      border-color: transparent var(--red) transparent transparent;
+    }
+
+    .service-card:hover {
+      border-color: var(--red);
+      box-shadow: var(--glow);
+      transform: translateY(-4px);
+      background: rgba(30,0,0,0.9);
+    }
+
+    .service-icon {
+      font-size: 1.8rem;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .service-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--red);
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .service-desc {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─── CONTACT ────────────────────────────── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 18px 20px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-item::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0;
+      width: 3px;
+      height: 0;
+      background: var(--red);
+      transition: height 0.3s;
+    }
+
+    .contact-item:hover::after { height: 100%; }
+
+    .contact-item:hover {
+      border-color: var(--red);
+      box-shadow: var(--glow);
+      color: #fff;
+      transform: translateX(4px);
+    }
+
+    .contact-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .contact-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      color: var(--red);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .contact-value {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--muted);
+      word-break: break-all;
+    }
+
+    .contact-item:hover .contact-value { color: #fff; }
+
+    /* ─── FOOTER ─────────────────────────────── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 30px 20px 50px;
+      border-top: 1px solid var(--border);
+    }
+
+    footer p {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 2px;
+      opacity: 0.6;
+    }
+
+    .footer-wolf {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.85rem;
+      color: var(--red);
+      margin-bottom: 8px;
+      letter-spacing: 3px;
+      text-shadow: 0 0 12px var(--red);
+    }
+
+    /* ─── ANIMATIONS ─────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero { animation: fadeUp 0.8s ease both; }
+    nav   { animation: fadeUp 0.8s 0.2s ease both; }
+    #about    { animation: fadeUp 0.8s 0.3s ease both; }
+    #services { animation: fadeUp 0.8s 0.4s ease both; }
+    #contact  { animation: fadeUp 0.8s 0.5s ease both; }
+
+    /* Glitch on name hover */
+    .hero-name:hover {
+      animation: glitch 0.4s steps(2) infinite;
+    }
+
+    @keyframes glitch {
+      0%   { text-shadow: 2px 0 var(--orange), -2px 0 var(--red); }
+      25%  { text-shadow: -2px 0 var(--orange), 2px 0 var(--red); }
+      50%  { text-shadow: 2px 2px var(--orange), -2px -2px var(--red); }
+      75%  { text-shadow: -2px 2px var(--orange), 2px -2px var(--red); }
+      100% { text-shadow: 0 0 20px var(--red), 0 0 40px rgba(255,42,42,0.4); }
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────── */
+    @media (max-width: 500px) {
+      .banner { height: 150px; }
+      .avatar-ring { width: 110px; height: 110px; }
+      .about-card { padding: 20px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BANNER -->
+  <div class="banner">
+    <img src="/mnt/user-data/uploads/1000467132.jpg" alt="Banner" onerror="this.style.display='none'"/>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="avatar-ring">
+      <img src="/mnt/user-data/uploads/1000467131.jpg" alt="TheDefiWolf" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23200000%22 width=%22100%22 height=%22100%22/><text y=%22.9em%22 font-size=%2260%22 x=%2250%25%22 text-anchor=%22middle%22>🐺</text></svg>'"/>
+    </div>
+    <h1 class="hero-name">Awin Edward</h1>
+    <div class="hero-handle">@TheDefiWolf</div>
+    <p class="hero-tag">Tek Builder · Tek Writer · Web3 Educator</p>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">01 WHO I AM</div>
+    <h2 class="section-title">About Me</h2>
+    <div class="about-card">
+      <p>
+        I'm Awin Edward, <strong>TheDefiWolf</strong>. A Web3 educator, technical writer, and builder on a mission to turn complex blockchain technology into clear, useful documentation that people actually understand.
+      </p>
+      <p style="margin-top:14px;">
+        Whether it's DeFi protocols, smart contract architecture, or emerging on-chain ecosystems. I break it down, build it out, and make it accessible. No jargon. No noise. Just clarity.
+      </p>
+      <div class="principle">
+        ⚡ The Cooked Egg Principle: Bravery. Discipline. Devotion.
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-label">02 WHAT I DO</div>
+    <h2 class="section-title">Services</h2>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <span class="service-icon">🎬</span>
+        <div class="service-name">AI Animation</div>
+        <p class="service-desc">Cinematic AI generated video content, from concept and prompt engineering to final output. Brands, intros, storytelling.</p>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">⚙️</span>
+        <div class="service-name">Frontend Development</div>
+        <p class="service-desc">Clean, functional web interfaces built with precision. From landing pages to Web3 dashboards, fast and responsive.</p>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">📄</span>
+        <div class="service-name">Technical Writing</div>
+        <p class="service-desc">Whitepapers, documentation, and protocol explainers that are research backed, accurate, and readable by anyone.</p>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">🔍</span>
+        <div class="service-name">Research</div>
+        <p class="service-desc">Deep dive Web3 research on DeFi, RWAs, DePIN and AI x Blockchain. Delivered as reports, threads, or brand content.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">03 REACH ME</div>
+    <h2 class="section-title">Contact</h2>
+    <div class="contact-grid">
+
+      <a class="contact-item" href="https://x.com/TheDefiWolf" target="_blank">
+        <span class="contact-icon">𝕏</span>
+        <div>
+          <span class="contact-label">X / TWITTER</span>
+          <span class="contact-value">@TheDefiWolf</span>
+        </div>
+      </a>
+
+      <a class="contact-item" href="https://t.me/thedefiwolff" target="_blank">
+        <span class="contact-icon">✈️</span>
+        <div>
+          <span class="contact-label">TELEGRAM</span>
+          <span class="contact-value">@thedefiwolff</span>
+        </div>
+      </a>
+
+      <a class="contact-item" href="mailto:thedefiwolfe@gmail.com">
+        <span class="contact-icon">📧</span>
+        <div>
+          <span class="contact-label">EMAIL</span>
+          <span class="contact-value">thedefiwolfe@gmail.com</span>
+        </div>
+      </a>
+
+      <a class="contact-item" href="https://wa.me/2349072316399" target="_blank">
+        <span class="contact-icon">💬</span>
+        <div>
+          <span class="contact-label">WHATSAPP</span>
+          <span class="contact-value">+234 907 231 6399</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-wolf">🐺 THEDEFIWOLF</div>
+    <p>© 2026 AWIN EDWARD · BUILT ON CHAIN · ALL RIGHTS RESERVED</p>
+  </footer>
+
+</body>
+</html>
